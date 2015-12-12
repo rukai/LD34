@@ -1,6 +1,5 @@
-        function love.load()
-
-	--THIS IS JUST FOR THE SPLASHSCREEN
+states.splash = {}
+function states.splash:enter()
 	splashscreen = true
 	splashscreenTimer = 150
 	splashscreenSoundPlayed = false
@@ -33,14 +32,9 @@
 	diamond4Base2 = {logo4X, logo4Y+140,logo4X,logo4Y+90,logo4X+30,logo4Y+60,logo4X+30,logo4Y+110} 
 
 	outline = {logoX-40,logoY+120,logoX-40,logoY+40,logo2X,logo2Y+10,logo3X+40,logoY+40,logo3X+40,logoY+120,logo2X,logo4Y+150}
+end
 
-
-        --- ....
-
-        end
-
-
-        function love.update()
+function states.splash:update()
          if splashscreen == true and splashscreenTimer > 0 then
 			textAlpha = 0
 			if logoAlpha < 255 then
@@ -57,15 +51,14 @@
 				logoAlpha = logoAlpha - 5
 				if logoAlpha <= 0 then
 					splashscreen = false
+					gamestate.switch(states.game)
 				end
 			end
 		end
-        end 
+end
 
-
-      function love.draw()
-
-if splashscreen == true then
+function states.splash:draw()
+	if splashscreen == true then
 		--this is just the neoludo logo pls dont judge me
 		love.graphics.setColor(255,255,255)
 		love.graphics.rectangle("fill",0,0,love.graphics.getWidth(),love.graphics.getHeight())
@@ -108,16 +101,4 @@ if splashscreen == true then
 		love.graphics.setFont(font)
 		love.graphics.printf("TM",logo3X + 490,logo4Y - 2,love.graphics.getWidth(),"left")
 	end
-
----VSYNC STUFF
-
-
-   local cur_time = love.timer.getTime()
-   if next_time <= cur_time then
-      next_time = cur_time
-      return
-   end
-   love.timer.sleep(next_time - cur_time)
-      
-
 end
