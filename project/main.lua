@@ -9,6 +9,7 @@ class = require "class"
 -- classes
 require "entities.player"
 require "entities.tree"
+require "entities.nuke"
 
 -- actual states
 require "states.menu"

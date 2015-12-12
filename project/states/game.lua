@@ -1,5 +1,7 @@
 states.game = {}
 states.game.entities = {}
+states.game.clock = 0
+states.game.nukeInterval = 5
 
 function states.game:enter()
 	for k,v in pairs(self.entities) do
@@ -13,9 +15,19 @@ function states.game:enter()
     wellImg = love.graphics.newImage("assets/well.png")
 	fertilizerImg = love.graphics.newImage("assets/fertilizer.png")
 	potImg = love.graphics.newImage("assets/pot.png")
+
+
 end
 
 function states.game:update( dt )
+	self.clock = self.clock + dt
+	if self.clock > self.nukeInterval then
+		local x = math.random( love.window.getWidth() )
+		local nuke = Nuke( x, -100, 0 )
+		table.insert( self.entities, nuke )
+		self.clock = 0
+	end
+
 	for k,v in pairs(self.entities) do
 		v:update(dt)
 	end
