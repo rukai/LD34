@@ -10,7 +10,8 @@ function states.game:enter()
 	tree = Tree()
 	table.insert( self.entities, tree )
 
-    wellGFX = love.graphics.newImage("assets/well.png")
+    wellImg = love.graphics.newImage("assets/well.png")
+	fertilizerImg = love.graphics.newImage("assets/fertilizer.png")
 end
 
 function states.game:update( dt )
@@ -27,11 +28,33 @@ function states.game:draw()
 	love.graphics.rectangle( "fill", 0, love.graphics.getHeight()-10, love.graphics.getWidth(), love.graphics.getHeight())
 
 	love.graphics.setColor(255, 255, 255)
-    local yOffset = love.graphics.getHeight() - wellGFX:getHeight()
-    love.graphics.draw(wellGFX, 0, yOffset)
+    local yOffset = love.graphics.getHeight() - wellImg:getHeight()
+    love.graphics.draw(wellImg, 0, yOffset)
+
+	local xOffset = love.graphics.getWidth() - fertilizerImg:getWidth()
+	local yOffset = love.graphics.getHeight() - fertilizerImg:getHeight()
+	love.graphics.draw(fertilizerImg, xOffset, yOffset)
 
 	for k,v in pairs(self.entities) do
 		v:draw()
 	end
 
+	drawBar(love.graphics.getWidth()/2, 80, "Health", tree.health, 10, {255, 0, 0})
+	drawBar(love.graphics.getWidth()/2-300, 100, "Water", tree.water, 10, {0, 0, 255})
+	drawBar(love.graphics.getWidth()/2+300, 100, "Food", tree.food, 10, {0, 255, 0})
+end
+
+function drawBar(x, y, name, value, maxValue, color)
+	local width = maxValue * 25
+	local height = 10
+
+	love.graphics.setColor(color)
+	love.graphics.rectangle('fill', x, y, width/2 * value/maxValue, height)
+	love.graphics.rectangle('fill', x, y, -width/2 * value/maxValue, height)
+
+	love.graphics.setColor(0, 0, 0)
+	love.graphics.rectangle('line', x - width/2, y, width, height)
+
+	love.graphics.setFont(medFont)
+	love.graphics.printf(name, x-width/2, y+15, width, 'center')
 end

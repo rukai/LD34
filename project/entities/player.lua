@@ -18,6 +18,7 @@ Player = class{
 
 	img = love.graphics.newImage("assets/robot.png"),
 	bucketimg = love.graphics.newImage("assets/bucket.png"),
+	sackimg = love.graphics.newImage("assets/sack.png"),
 	rot = 0,
 	dir = 0,
 
@@ -40,9 +41,20 @@ Player = class{
 		if self.item == "bucket" then
 			love.graphics.draw( self.bucketimg, x, y+70, 0, 1, 1, 11, 17)
 		end
+
+		if self.item == "sack" then
+			love.graphics.draw( self.sackimg, x, y+70, 0, 1, 1, 29, 36)
+		end
 	end,
 
 	update = function( self, dt )
+		--account for held items in speed
+		if self.item == "bucket" or self.item == "sack" then
+			self.speed = 5
+		else
+			self.speed = 10
+		end
+
 		if love.keyboard.isDown( "left" ) then
 			self.pos.ddx = -self.accel
 			self.dir = 1

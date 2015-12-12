@@ -24,6 +24,7 @@ function love.load()
 
 	tinyFont = love.graphics.newFont("assets/oswald.ttf", 12)
 	font = love.graphics.newFont("assets/oswald.ttf", 20)
+	medFont = love.graphics.newFont("assets/oswald.ttf", 30)
 	bigFont = love.graphics.newFont("assets/oswald.ttf", 40)
 	hugeFont = love.graphics.newFont("assets/oswald.ttf", 90)
 end
