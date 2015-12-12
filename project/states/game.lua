@@ -65,9 +65,9 @@ function states.game:draw()
 		v:draw()
 	end
 
-	drawBar(love.graphics.getWidth()/2, 80, "Health", tree.health, 10, {244, 0, 0})
-	drawBar(love.graphics.getWidth()/2-300, 100, "Water", tree.water, 10, {0, 97, 255})
-	drawBar(love.graphics.getWidth()/2+300, 100, "Love", tree.food, 10, {255, 102, 153})
+	drawBar(love.graphics.getWidth()/2, 80, "HEALTH", tree.health, 10, {244, 0, 0})
+	drawBar(love.graphics.getWidth()/2-300, 100, "WATER", tree.water, 10, {0, 97, 255})
+	drawBar(love.graphics.getWidth()/2+300, 100, "LOVE", tree.food, 10, {255, 102, 153})
 end
 
 function drawBar(x, y, name, value, maxValue, color)

@@ -97,8 +97,8 @@ function states.splash:draw()
 		love.graphics.setColor(0,0,0,logoAlpha)
 		love.graphics.polygon("line",outline)
 		love.graphics.setFont(hugeFont)
-		love.graphics.printf("N E O L U D O",logo3X + 60,logo4Y - 26,love.graphics.getWidth(),"left")
+		love.graphics.printf("N E O L U D O",logo3X + 60,logo4Y - 12,love.graphics.getWidth(),"left")
 		love.graphics.setFont(font)
-		love.graphics.printf("TM",logo3X + 490,logo4Y - 2,love.graphics.getWidth(),"left")
+		love.graphics.printf("TM",logo3X + 590,logo4Y - 2,love.graphics.getWidth(),"left")
 	end
 end
