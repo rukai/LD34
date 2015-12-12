@@ -6,12 +6,13 @@ function states.game:enter()
 		self.entities[k] = nil
 	end
 
-	table.insert( self.entities, Player( love.graphics.getWidth()/2, love.graphics.getHeight() - 142 ) )
+	table.insert( self.entities, Player( love.graphics.getWidth()/2 - 98, love.graphics.getHeight() - 142 ) )
 	tree = Tree()
 	table.insert( self.entities, tree )
 
     wellImg = love.graphics.newImage("assets/well.png")
 	fertilizerImg = love.graphics.newImage("assets/fertilizer.png")
+	potImg = love.graphics.newImage("assets/pot.png")
 end
 
 function states.game:update( dt )
@@ -34,6 +35,10 @@ function states.game:draw()
 	local xOffset = love.graphics.getWidth() - fertilizerImg:getWidth()
 	local yOffset = love.graphics.getHeight() - fertilizerImg:getHeight()
 	love.graphics.draw(fertilizerImg, xOffset, yOffset)
+
+	local xOffset = love.graphics.getWidth()/2 - potImg:getWidth()/2
+	local yOffset = love.graphics.getHeight() - potImg:getHeight() - 9
+	love.graphics.draw(potImg, xOffset, yOffset)
 
 	for k,v in pairs(self.entities) do
 		v:draw()
