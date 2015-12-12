@@ -18,8 +18,7 @@ function states.game:enter()
     wellImg = love.graphics.newImage("assets/well.png")
 	fertilizerImg = love.graphics.newImage("assets/fertilizer.png")
 	potImg = love.graphics.newImage("assets/pot.png")
-
-
+	self.treeCount = 0
 end
 
 local function dist(x1,y1,x2,y2)
@@ -49,6 +48,7 @@ function states.game:update( dt )
 
 		tree = Tree()
 		table.insert( self.entities, tree )
+		self.treeCount = self.treeCount + 1
 	end
 
 	for k,v in pairs(self.entities) do
@@ -86,9 +86,12 @@ function states.game:draw()
 		v:draw()
 	end
 
-	drawBar(love.graphics.getWidth()/2, 80, "HEALTH", tree.health, 10, {244, 0, 0})
-	drawBar(love.graphics.getWidth()/2-300, 100, "WATER", tree.water, 10, {0, 97, 255})
-	drawBar(love.graphics.getWidth()/2+300, 100, "LOVE", tree.food, 10, {255, 102, 153})
+	drawBar(love.graphics.getWidth()/2, 60, "HEALTH", tree.health, 10, {244, 0, 0})
+	drawBar(love.graphics.getWidth()/2-300, 80, "WATER", tree.water, 10, {0, 97, 255})
+	drawBar(love.graphics.getWidth()/2+300, 80, "LOVE", tree.food, 10, {255, 102, 153})
+
+	love.graphics.setFont(bigFont)
+	love.graphics.printf(self.treeCount .. " TREES", 0, 110, love.graphics.getWidth(), 'center')
 end
 
 function drawBar(x, y, name, value, maxValue, color)
@@ -103,6 +106,5 @@ function drawBar(x, y, name, value, maxValue, color)
 	--love.graphics.rectangle('line', x - width/2, y, width, height)
 
 	love.graphics.setFont(medFont)
-	--love.graphics.printf(name, x-width/2, y+15, width, 'center')
-	love.graphics.printf(name, x-width/2, y-45, width, 'center')
+	love.graphics.printf(name, x-width/2, y-35, width, 'center')
 end
