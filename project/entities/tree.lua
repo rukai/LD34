@@ -40,24 +40,39 @@ function Tree:update(dt)
 
 	--grow
 	newTime = love.timer.getTime()
-	if newTime - self.startTime > 10 and self.growth <= 10 then
+	if newTime - self.startTime > 2 and self.growth <= 10 then
 		self.startTime = newTime
 		self.growth = self.growth + 1
 	end
 	
 	self.water = self.water - 0.003
 	self.food = self.food - 0.003
+
+	if self.water <= 0 then
+		self.water = 0
+		self.startTime = newTime
+		self.health = self.health - 0.003
+	end
+	if self.food <= 0 then
+		self.food = 0
+		self.startTime = newTime
+		self.health = self.health - 0.003
+	end
+
+	if self.health < 0 then
+		self.health = 0
+	end
 end
 
 function Tree:giveWater()
-	self.water = self.water + 1
+	self.water = self.water + 2
 	if self.water > 10 then
 		self.water = 10
 	end
 end
 
 function Tree:feed()
-	self.food = self.food + 1
+	self.food = self.food + 2
 	if self.food > 10 then
 		self.food = 10
 	end
