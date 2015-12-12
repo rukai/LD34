@@ -1,4 +1,4 @@
-local states = {}
+states = {}
 
 -- util
 gamestate = require "gamestate"
