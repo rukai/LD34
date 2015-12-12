@@ -23,11 +23,11 @@ function love.load()
 	gamestate.registerEvents()
 	gamestate.switch( states.game )
 
-	tinyFont = love.graphics.newFont("assets/oswald.ttf", 12)
-	font = love.graphics.newFont("assets/oswald.ttf", 20)
-	medFont = love.graphics.newFont("assets/oswald.ttf", 30)
-	bigFont = love.graphics.newFont("assets/oswald.ttf", 40)
-	hugeFont = love.graphics.newFont("assets/oswald.ttf", 90)
+	tinyFont = love.graphics.newFont("assets/roboto.ttf", 12)
+	font = love.graphics.newFont("assets/roboto.ttf", 20)
+	medFont = love.graphics.newFont("assets/roboto.ttf", 25)
+	bigFont = love.graphics.newFont("assets/roboto.ttf", 40)
+	hugeFont = love.graphics.newFont("assets/roboto.ttf", 90)
 end
 
 function love.update( dt )
