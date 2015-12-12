@@ -4,6 +4,9 @@ states = {}
 gamestate = require "gamestate"
 class = require "class"
 
+-- classes
+require "entities.player"
+
 -- actual states
 require "states.menu"
 require "states.game"
