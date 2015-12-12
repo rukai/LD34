@@ -1,4 +1,9 @@
 Player = class{
+	chull = {
+		xo = 102/2 - 25,
+		yo = -5,
+		r = 102/2 - 7,
+	},
 	pos = {
 		x = 0, 
 		y = 0,
@@ -19,6 +24,7 @@ Player = class{
 	img = love.graphics.newImage("assets/robot.png"),
 	bucketimg = love.graphics.newImage("assets/bucket.png"),
 	sackimg = love.graphics.newImage("assets/sack.png"),
+	umbrellaimg = love.graphics.newImage("assets/umbrella.png"),
 	rot = 0,
 	dir = 0,
 
@@ -45,6 +51,11 @@ Player = class{
 		if self.item == "sack" then
 			love.graphics.draw( self.sackimg, x, y+70, 0, 1, 1, 29, 36)
 		end
+
+		love.graphics.draw( self.umbrellaimg, self.pos.x+102/2 - 25, self.pos.y -35, 0, -1, 1, 102/2)
+
+		love.graphics.setColor(255,0,0)
+		love.graphics.circle( "line", self.pos.x + self.chull.xo, self.pos.y + self.chull.yo, self.chull.r)
 	end,
 
 	update = function( self, dt )

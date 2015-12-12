@@ -1,14 +1,17 @@
 states.game = {}
 states.game.entities = {}
 states.game.clock = 0
-states.game.nukeInterval = 5
+states.game.nukeInterval = 0.5
+states.game.player = nil
 
 function states.game:enter()
 	for k,v in pairs(self.entities) do
 		self.entities[k] = nil
 	end
 
-	table.insert( self.entities, Player( love.graphics.getWidth()/2 - 98, love.graphics.getHeight() - 142 ) )
+	self.player = Player( love.graphics.getWidth()/2 - 98, love.graphics.getHeight() - 142 )
+
+	table.insert( self.entities, self.player )
 	tree = Tree()
 	table.insert( self.entities, tree )
 
@@ -19,6 +22,10 @@ function states.game:enter()
 
 end
 
+local function dist(x1,y1,x2,y2)
+	return math.sqrt( math.pow(x1-x2,2) + math.pow(y1-y2,2) )
+end
+
 function states.game:update( dt )
 	self.clock = self.clock + dt
 	if self.clock > self.nukeInterval then
@@ -26,8 +33,14 @@ function states.game:update( dt )
 		local nuke = Nuke( x, -100, 0 )
 		table.insert( self.entities, nuke )
 		self.clock = 0
+
+		local frac = x/love.window.getWidth()
+		if frac > 0.5 then frac = -(frac-0.5)
+		elseif frac < 0.5 then frac = 0.5-frac end
+
+		nuke.pos.dx = frac*2.5
 	end
-	if tree.growth > 10 then
+	if tree.growth > tree.maxGrowth then
 		for k,v in pairs(self.entities) do
 			if self.entities[k] == tree then
 				table.remove(self.entities, k)
@@ -40,6 +53,14 @@ function states.game:update( dt )
 
 	for k,v in pairs(self.entities) do
 		v:update(dt)
+
+		-- check collisions using chull
+		if v.nuke == true then
+			if dist(v.pos.x, v.pos.y, self.player.pos.x, self.player.pos.y) < v.chull.r + self.player.chull.r then
+				v:bounce()
+			end
+		end
+
 	end
 end
 

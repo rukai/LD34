@@ -15,6 +15,7 @@ function Tree:init()
 	self.canvas = love.graphics.newCanvas(love.window.getWidth(), love.window.getHeight())
 	self.startTime = love.timer.getTime()
 	self.growthRate = 0.5 -- number of seconds before tree grows
+	self.maxGrowth = 9
 end
 
 function Tree:draw ()
@@ -49,7 +50,7 @@ function Tree:update(dt)
 
 	--grow
 	local newTime = love.timer.getTime()
-	if newTime - self.startTime > self.growthRate and self.growth <= 10 then
+	if newTime - self.startTime > self.growthRate and self.growth <= self.maxGrowth then
 		self.startTime = newTime
 		self.growth = self.growth + 1
 	end
