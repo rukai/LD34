@@ -29,10 +29,11 @@ function Tree:drawBranch(x, y, angle, iteration) -- x and y refer to the ends of
 
 	local newX = x + (math.cos(angle) * ratio)
 	local newY = y - (math.sin(angle) * ratio)
-	love.graphics.line(x, y, newX, newY)
 	if iteration < self.growth then
 		self.drawBranch(self, newX, newY, angle + 0.6, iteration + 1)
 		self.drawBranch(self, newX, newY, angle - 0.6, iteration + 1)
+	elseif iteration == self.growth then
+		love.graphics.line(x, y, newX, newY)
 	end
 end
 

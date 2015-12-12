@@ -87,7 +87,7 @@ Player = class{
 		if self.pos.x < 102 then
 			self.item = "bucket"
 		end
-		if self.pos.x > love.graphics.getWidth()-100 then
+		if self.pos.x > love.graphics.getWidth()-134 then
 			self.item = "sack"
 		end
 		

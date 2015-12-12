@@ -44,9 +44,9 @@ function states.game:draw()
 		v:draw()
 	end
 
-	drawBar(love.graphics.getWidth()/2, 80, "Health", tree.health, 10, {255, 0, 0})
-	drawBar(love.graphics.getWidth()/2-300, 100, "Water", tree.water, 10, {0, 0, 255})
-	drawBar(love.graphics.getWidth()/2+300, 100, "Food", tree.food, 10, {0, 255, 0})
+	drawBar(love.graphics.getWidth()/2, 80, "Health", tree.health, 10, {244, 0, 0})
+	drawBar(love.graphics.getWidth()/2-300, 100, "Water", tree.water, 10, {0, 97, 255})
+	drawBar(love.graphics.getWidth()/2+300, 100, "Love", tree.food, 10, {255, 102, 153})
 end
 
 function drawBar(x, y, name, value, maxValue, color)
@@ -58,8 +58,9 @@ function drawBar(x, y, name, value, maxValue, color)
 	love.graphics.rectangle('fill', x, y, -width/2 * value/maxValue, height)
 
 	love.graphics.setColor(0, 0, 0)
-	love.graphics.rectangle('line', x - width/2, y, width, height)
+	--love.graphics.rectangle('line', x - width/2, y, width, height)
 
 	love.graphics.setFont(medFont)
-	love.graphics.printf(name, x-width/2, y+15, width, 'center')
+	--love.graphics.printf(name, x-width/2, y+15, width, 'center')
+	love.graphics.printf(name, x-width/2, y-45, width, 'center')
 end
