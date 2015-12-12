@@ -8,6 +8,7 @@ class = require "class"
 
 -- classes
 require "entities.player"
+require "entities.tree"
 
 -- actual states
 require "states.menu"
@@ -19,7 +20,7 @@ function love.load()
 	min_dt = 1/60
 	next_time = love.timer.getTime()
 	gamestate.registerEvents()
-	gamestate.switch( states.splash )
+	gamestate.switch( states.game )
 
 	tinyFont = love.graphics.newFont("assets/oswald.ttf", 12)
 	font = love.graphics.newFont("assets/oswald.ttf", 20)

@@ -28,7 +28,7 @@ Player = class{
 	draw = function( self )
 		love.graphics.draw( self.img, self.pos.x - 49/2 + (self.dir == 1 and 49 or 0), self.pos.y, self.rot, self.dir == 1 and -1 or 1, 1 )
 	end,
-	update = function( self )
+	update = function( self, dt )
 		if love.keyboard.isDown( "left" ) then
 			self.pos.ddx = -self.accel
 			self.dir = 1
