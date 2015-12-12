@@ -38,7 +38,7 @@ function states.game:update( dt )
 		if frac > 0.5 then frac = -(frac-0.5)
 		elseif frac < 0.5 then frac = 0.5-frac end
 
-		nuke.pos.dx = frac*2.5
+		nuke.pos.dx = frac*math.random( 2.5, 6.5 )
 	end
 	if tree.growth > tree.maxGrowth then
 		for k,v in pairs(self.entities) do
@@ -51,13 +51,17 @@ function states.game:update( dt )
 		table.insert( self.entities, tree )
 	end
 
-	for k,v in pairs(self.entities) do
-		v:update(dt)
+	for i = 1, #self.entities do
+		if self.entities[i] ~= nil then
+			local v = self.entities[i]
+			v:update(dt)
 
-		-- check collisions using chull
-		if v.nuke == true then
-			if dist(v.pos.x, v.pos.y, self.player.pos.x, self.player.pos.y) < v.chull.r + self.player.chull.r then
-				v:bounce()
+			-- check collisions using chull
+			if v.nuke == true then
+				if dist(v.pos.x, v.pos.y, self.player.pos.x, self.player.pos.y) < v.chull.r + self.player.chull.r then
+					--self.entities[i] = nil
+					v:bounce()
+				end
 			end
 		end
 

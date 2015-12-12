@@ -13,14 +13,21 @@ Nuke = class{
 		}
 		self.chull = {
 			xo = 0,
-			yo = 10,
+			yo = 0,
 			r = 20,
 		}
 		self.pos.x = x
 		self.pos.y = y
 		self.pos.dx = dx
+		self.particles = {}
+		self.partClock = 0
 	end,
 	draw = function( self )
+
+		for k,v in ipairs( self.particles ) do
+			v:draw()
+		end
+
 		love.graphics.setColor(255,255,255)
 		love.graphics.draw( self.img, self.pos.x, self.pos.y, math.atan2(self.pos.dy, self.pos.dx) - math.pi/2, 0.7, 0.7, 52/2, 101/2 )
 
@@ -38,6 +45,20 @@ Nuke = class{
 
 		self.bounceCooldown = self.bounceCooldown - dt
 		if self.bounceCooldown < 0 then self.bounceCooldown = 0 end
+
+		self.partClock = self.partClock + dt
+		if self.partClock > 0.15 then
+			self.partClock = 0
+			table.insert( self.particles, Particle( self.pos.x, self.pos.y) )
+		end
+
+		for i = 1, #self.particles do
+			if self.particles[i] ~= nil then
+				local v = self.particles[i]
+				v:update( dt )
+				if v.hp <= 0 then self.particles[i] = nil end
+			end
+		end
 
 	end,
 	bounce = function( self )
