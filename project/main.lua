@@ -42,3 +42,8 @@ function love.draw()
 	end
 	love.timer.sleep(next_time - cur_time)
 end
+
+function rand(min, max)
+	local range = max - min
+	return min + range * math.random()
+end

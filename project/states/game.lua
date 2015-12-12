@@ -27,6 +27,16 @@ function states.game:update( dt )
 		table.insert( self.entities, nuke )
 		self.clock = 0
 	end
+	if tree.growth > 10 then
+		for k,v in pairs(self.entities) do
+			if self.entities[k] == tree then
+				table.remove(self.entities, k)
+			end
+		end
+
+		tree = Tree()
+		table.insert( self.entities, tree )
+	end
 
 	for k,v in pairs(self.entities) do
 		v:update(dt)
@@ -34,7 +44,7 @@ function states.game:update( dt )
 end
 
 function states.game:draw()
-	love.graphics.setBackgroundColor(255, 255, 255, 255)
+	love.graphics.setBackgroundColor(255, 255, 255)
 
 	love.graphics.setColor(0, 0, 0)
 	love.graphics.rectangle( "fill", 0, love.graphics.getHeight()-10, love.graphics.getWidth(), love.graphics.getHeight())
