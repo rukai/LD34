@@ -16,14 +16,24 @@ function states.game:enter()
 end
 
 function states.game:update( dt )
+	if tree.growth > 10 then
+		for k,v in pairs(self.entities) do
+			if self.entities[k] == tree then
+				table.remove(self.entities, k)
+			end
+		end
+
+		tree = Tree()
+		table.insert( self.entities, tree )
+	end
+
 	for k,v in pairs(self.entities) do
 		v:update(dt)
 	end
 end
 
 function states.game:draw()
-	love.graphics.setColor(255, 255, 255)
-	love.graphics.rectangle( "fill", 0, 0, 1024, 768 )
+	love.graphics.setBackgroundColor(255, 255, 255)
 
 	love.graphics.setColor(0, 0, 0)
 	love.graphics.rectangle( "fill", 0, love.graphics.getHeight()-10, love.graphics.getWidth(), love.graphics.getHeight())
