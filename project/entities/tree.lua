@@ -11,6 +11,7 @@ function Tree:init()
 	self.food = 10
 	self.canvas = love.graphics.newCanvas(1024, 768)
 	self.startTime = love.timer.getTime()
+	self.growthRate = 2 -- number of seconds before tree grows
 end
 
 function Tree:draw ()
@@ -29,19 +30,23 @@ function Tree:drawBranch(x, y, angle, iteration) -- x and y refer to the ends of
 
 	local newX = x + (math.cos(angle) * ratio)
 	local newY = y - (math.sin(angle) * ratio)
+	if iteration == self.growth then 
+		local alpha = 255 * (love.timer.getTime() - self.startTime)/self.growthRate
+		love.graphics.setColor(0, 0, 0, alpha)
+	end
+	love.graphics.line(x, y, newX, newY)
+	love.graphics.setColor(0, 0, 0)
 	if iteration < self.growth then
 		self.drawBranch(self, newX, newY, angle + 0.6, iteration + 1)
 		self.drawBranch(self, newX, newY, angle - 0.6, iteration + 1)
-	elseif iteration == self.growth then
-		love.graphics.line(x, y, newX, newY)
 	end
 end
 
 function Tree:update(dt)
 
 	--grow
-	newTime = love.timer.getTime()
-	if newTime - self.startTime > 2 and self.growth <= 10 then
+	local newTime = love.timer.getTime()
+	if newTime - self.startTime > self.growthRate and self.growth <= 10 then
 		self.startTime = newTime
 		self.growth = self.growth + 1
 	end
