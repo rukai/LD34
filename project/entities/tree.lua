@@ -9,7 +9,7 @@ function Tree:init()
 	self.health = 10
 	self.water = 10
 	self.food = 10
-	self.canvas = love.graphics.newCanvas(1024, 768)
+	self.canvas = love.graphics.newCanvas( love.window.getWidth(), love.window.getHeight() )
 	self.startTime = love.timer.getTime()
 	self.growthRate = 2 -- number of seconds before tree grows
 end

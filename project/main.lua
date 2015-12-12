@@ -1,6 +1,6 @@
 states = {}
 
-require "splashscreen"
+--require "splashscreen"
 
 -- util
 gamestate = require "gamestate"

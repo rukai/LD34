@@ -22,8 +22,7 @@ function states.game:update( dt )
 end
 
 function states.game:draw()
-	love.graphics.setColor(255, 255, 255)
-	love.graphics.rectangle( "fill", 0, 0, 1024, 768 )
+	love.graphics.setBackgroundColor(255, 255, 255, 255)
 
 	love.graphics.setColor(0, 0, 0)
 	love.graphics.rectangle( "fill", 0, love.graphics.getHeight()-10, love.graphics.getWidth(), love.graphics.getHeight())
