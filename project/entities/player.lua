@@ -7,11 +7,17 @@ Player = class{
 		ddx = 0,
 		ddy = 0
 	},
+	item = "",
+	--item values:
+	--	bucket
+	--	sack
+	--	umbrella
 
 	speed = 10,
 	accel = 3,
 
 	img = love.graphics.newImage("assets/robot.png"),
+	bucketimg = love.graphics.newImage("assets/bucket.png"),
 	rot = 0,
 	dir = 0,
 
@@ -25,9 +31,17 @@ Player = class{
 	setY = function( self, y )
 		self.pos.y = y
 	end,
+
 	draw = function( self )
-		love.graphics.draw( self.img, self.pos.x - 49/2 + (self.dir == 1 and 49 or 0), self.pos.y, self.rot, self.dir == 1 and -1 or 1, 1 )
+		local x = self.pos.x - 49/2 + (self.dir == 1 and 49 or 0)
+		local y = self.pos.y
+		love.graphics.draw( self.img, x, y, self.rot, self.dir == 1 and -1 or 1, 1 )
+
+		if self.item == "bucket" then
+			love.graphics.draw( self.bucketimg, x, y+70, 0, 1, 1, 11, 17)
+		end
 	end,
+
 	update = function( self, dt )
 		if love.keyboard.isDown( "left" ) then
 			self.pos.ddx = -self.accel
@@ -56,6 +70,23 @@ Player = class{
 		if self.pos.dx < -self.speed then self.pos.dx = -self.speed end
 
 		self.pos.x = self.pos.x + self.pos.dx
+	
+		--pickup location items
+		if self.pos.x < 102 then
+			self.item = "bucket"
+		end
+		if self.pos.x > love.graphics.getWidth()-100 then
+			self.item = "sack"
+		end
+		
+		--give item to tree
+		if self.pos.x > love.graphics.getWidth()/2 and self.item == "bucket"  then
+			self.item = ""
+			tree:giveWater()
+		elseif self.pos.x < love.graphics.getWidth()/2 and self.item == "sack" then
+			self.item = ""
+			tree:feed()
+		end
 	end,
 }
 

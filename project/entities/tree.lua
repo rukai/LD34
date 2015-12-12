@@ -8,7 +8,7 @@ function Tree:init()
 	self.growth = 0
 	self.health = 10
 	self.water = 10
-	self.nutrients = 10
+	self.food = 10
 	self.canvas = love.graphics.newCanvas(1024, 768)
 	self.startTime = love.timer.getTime()
 end
@@ -37,12 +37,23 @@ function Tree:drawBranch(x, y, angle, iteration) -- x and y refer to the ends of
 end
 
 function Tree:update(dt)
-	print(self.growth)
 
 	--grow
 	newTime = love.timer.getTime()
 	if newTime - self.startTime > 2 and self.growth <= 10 then
 		self.startTime = newTime
 		self.growth = self.growth + 1
+	end
+end
+
+function Tree:giveWater()
+	if self.water < 10 then
+		self.water = self.water + 1
+	end
+end
+
+function Tree:feed()
+	if self.food < 10 then
+		self.food = self.food + 1
 	end
 end
