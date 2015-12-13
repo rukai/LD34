@@ -1,8 +1,10 @@
 states.game = {}
 states.game.entities = {}
 states.game.clock = 0
-states.game.nukeInterval = 0.5
+states.game.nukeInterval = 1
 states.game.player = nil
+states.game.partClock = 0
+states.game.flash = 0
 
 function states.game:enter()
 	for k,v in pairs(self.entities) do
@@ -13,6 +15,7 @@ function states.game:enter()
 
 	table.insert( self.entities, self.player )
 	tree = Tree()
+	self.tree = tree
 	table.insert( self.entities, tree )
 
     wellImg = love.graphics.newImage("assets/well.png")
@@ -45,31 +48,86 @@ function states.game:update( dt )
 				table.remove(self.entities, k)
 			end
 		end
+		self.tree = nil
 
 		tree = Tree()
+		self.tree = tree
 		table.insert( self.entities, tree )
 		self.treeCount = self.treeCount + 1
 	end
 
-	for i = 1, #self.entities do
-		if self.entities[i] ~= nil then
-			local v = self.entities[i]
-			v:update(dt)
-
-			-- check collisions using chull
+	self.partClock = self.partClock + dt
+	if self.partClock > 0.1 then
+		self.partClock = 0
+		for k,v in pairs( self.entities ) do
 			if v.nuke == true then
-				if dist(v.pos.x, v.pos.y, self.player.pos.x, self.player.pos.y) < v.chull.r + self.player.chull.r then
-					--self.entities[i] = nil
-					v:bounce()
-				end
+				local rot = v.rot - math.pi/2
+				local p = Particle( v.pos.x + math.cos(rot)*30, v.pos.y + math.sin(rot)*30 )
+				p.r = 8
+				p.decay = 4
+				table.insert( self.entities, p )
 			end
 		end
+	end
+
+	for k,v in pairs( self.entities ) do
+		--if self.entities[i] ~= nil then
+			--local v = self.entities[i]
+		v:update(dt)
+
+
+
+		-- check collisions using chull
+		if v.nuke == true then
+			if dist(v.pos.x, v.pos.y, self.player.pos.x + self.player.chull.xo, self.player.pos.y + self.player.chull.yo) < v.chull.r + self.player.chull.r then
+				--self.entities[i] = nil
+				v:bounce()
+			end
+			if v.pos.x > love.window.getWidth() + 100*0.7*0.5 then
+				self.entities[k] = nil
+			end
+			if v.pos.x < -100*0.7*0.5 then
+				self.entities[k] = nil
+			end
+			if v.pos.y > love.window.getHeight() - 101*0.7*0.5 then
+				v:explode()
+				self.flash = self.flash + 192
+				if self.flash > 255 then self.flash = 255 end
+				for i = 1,40 do
+					local p = Particle( v.pos.x, v.pos.y )
+					p.pos.dx = math.random(-100,100) / 50
+					p.pos.dy = math.random(-100,0) / 20
+					p.pos.ddy = 0.02
+					p.r = 22
+
+					if math.random(2) == 2 then
+						p.col.r = 255
+						p.col.g = 102
+					else
+						p.col.r = 255
+						p.col.g = 204
+						p.col.b = 102
+					end
+					table.insert(self.entities, p)
+					
+				end
+				self.entities[k] = nil
+				self.tree.health = self.tree.health - 1
+			end
+		end
+		--end
 
 	end
+
+	self.flash = self.flash - dt * 200
+	if self.flash < 0 then self.flash = 0 end
 end
 
 function states.game:draw()
 	love.graphics.setBackgroundColor(255, 255, 255)
+
+	love.graphics.setColor(200,0,0,self.flash/2)
+	love.graphics.rectangle("fill",0,0,love.window.getWidth(), love.window.getHeight())
 
 	love.graphics.setColor(0, 0, 0)
 	love.graphics.rectangle( "fill", 0, love.graphics.getHeight()-10, love.graphics.getWidth(), love.graphics.getHeight())
@@ -96,6 +154,9 @@ function states.game:draw()
 
 	love.graphics.setFont(bigFont)
 	love.graphics.printf(self.treeCount .. " TREES", 0, 110, love.graphics.getWidth(), 'center')
+
+	love.graphics.setColor(255,255,255,self.flash)
+	love.graphics.rectangle("fill", 0,0, love.window.getWidth(), love.window.getHeight())
 end
 
 function drawBar(x, y, name, value, maxValue, color)

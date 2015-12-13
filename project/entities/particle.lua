@@ -14,13 +14,20 @@ Particle = class{
 			yo = 10,
 			r = 20,
 		}
+		self.col = {
+			r = 255,
+			g = 0,
+			b = 0
+		}
 		self.pos.x = x
 		self.pos.y = y
 		self.hp = 100
+		self.r = 16
+		self.decay = 1
 	end,
 	draw = function( self )
-		love.graphics.setColor(255*self.hp/100,0,0, 175)
-		love.graphics.circle("fill",self.pos.x, self.pos.y, 16*(self.hp/100))
+		love.graphics.setColor(self.col.r*self.hp/100,self.col.g*self.hp/100,self.col.b*self.hp/100, 195)
+		love.graphics.circle("fill",self.pos.x, self.pos.y, self.r*(self.hp/100))
 		
 	end,
 	update = function( self, dt )
@@ -32,7 +39,7 @@ Particle = class{
 
 		self.pos.y = self.pos.y + self.pos.dy
 
-		self.hp = self.hp - dt*20
+		self.hp = self.hp - dt*40*self.decay
 
 		if self.hp < 0 then 
 			self.hp = 0 

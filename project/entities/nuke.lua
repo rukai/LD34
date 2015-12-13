@@ -21,6 +21,7 @@ Nuke = class{
 		self.pos.dx = dx
 		self.particles = {}
 		self.partClock = 0
+		self.rot = 0
 	end,
 	draw = function( self )
 
@@ -28,13 +29,17 @@ Nuke = class{
 			v:draw()
 		end
 
+
 		love.graphics.setColor(255,255,255)
-		love.graphics.draw( self.img, self.pos.x, self.pos.y, math.atan2(self.pos.dy, self.pos.dx) - math.pi/2, 0.7, 0.7, 52/2, 101/2 )
+		love.graphics.draw( self.img, self.pos.x, self.pos.y,  self.rot, 0.7, 0.7, 52/2, 101/2 )
 
 		love.graphics.setColor(255,0,0)
 		love.graphics.circle( "line", self.pos.x + self.chull.xo, self.pos.y + self.chull.yo, self.chull.r )
 	end,
 	update = function( self, dt )
+
+		self.rot = math.atan2(self.pos.dy, self.pos.dx) - math.pi/2
+
 		self.pos.dx = self.pos.dx + self.pos.ddx
 
 		self.pos.x = self.pos.x + self.pos.dx
@@ -49,7 +54,7 @@ Nuke = class{
 		self.partClock = self.partClock + dt
 		if self.partClock > 0.15 then
 			self.partClock = 0
-			table.insert( self.particles, Particle( self.pos.x, self.pos.y) )
+			--table.insert( self.particles, Particle( self.pos.x, self.pos.y) )
 		end
 
 		for i = 1, #self.particles do
@@ -68,5 +73,12 @@ Nuke = class{
 			self.bounceCooldown = 1
 		end
 	end,
+	explode = function( self )
+		self.pos.dx = 0
+		self.pos.dy = 0
+		self.pos.ddy = 0
+		
+		
+	end
 
 }
