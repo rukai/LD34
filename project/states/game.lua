@@ -1,7 +1,6 @@
 states.game = {}
 states.game.entities = {}
 states.game.clock = 0
-states.game.nukeInterval = 4
 states.game.player = nil
 states.game.partClock = 0
 states.game.tutorial = true
@@ -29,6 +28,7 @@ function states.game:enter()
 	self.treeCount = 0
 	self.tutorialTime = love.timer.getTime()
 	self.tutorialWarningState = 0
+	self.nukeInterval = 4
 
 	if love.filesystem.exists('highscores.sav') then
 		self.tutorial = false
@@ -40,6 +40,7 @@ local function dist(x1,y1,x2,y2)
 end
 
 function states.game:update( dt )
+	self.nukeInterval = math.max(self.nukeInterval - 0.0002, 2) -- the interval gets one second smaller every minute
 
 	for k,v in pairs( self.entities ) do
 		--if self.entities[i] ~= nil then
@@ -208,7 +209,13 @@ function states.game:draw()
 			self.tutorialWarningState = 2 --end warning
 		end
 		if self.tutorialWarningState == 1 then
-			love.graphics.print("YOUR TREE NEEDS\nWATER & LOVE OR\nIT WILL STOP GROWING\nAND LOSE HEALTH", 860, 300)
+			if tree.water == 0 then
+				love.graphics.print("Hydrate your tree", 5, 440)
+				love.graphics.draw(tutorialArrowImg, 45, 550, 3 * math.pi/2)
+			else
+				love.graphics.print("Love your tree", love.graphics.getWidth() - 180, 500)
+				love.graphics.draw(tutorialArrowImg, love.graphics.getWidth() - 100, 600, 3 * math.pi/2)
+			end
 		end
 	end
 
