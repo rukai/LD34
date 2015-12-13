@@ -5,7 +5,7 @@ Tree = class{
 function Tree:init()
 	self.isTree = true
 	self.pos.x = 0
-	self.pos.y = -40
+	self.pos.y = 0
 	self.growth = 0
 	self.health = 10
 	self.water = 10
@@ -19,7 +19,7 @@ function Tree:init()
 
 	self.canvas = love.graphics.newCanvas(love.window.getWidth(), love.window.getHeight())
 	self.startTime = love.timer.getTime()
-	self.growthRate = 7 -- number of seconds before tree grows
+	self.growthRate = 6 -- number of seconds before tree grows
 	self.maxGrowth = 10
 end
 
