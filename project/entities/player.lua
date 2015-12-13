@@ -31,6 +31,7 @@ Player = class{
 	init = function( self, x, y )
 		self.pos.x = x
 		self.pos.y = y
+		self.entities = {}
 	end,
 	setX = function( self, x )
 		self.pos.x = x
@@ -106,9 +107,37 @@ Player = class{
 		if self.pos.x > love.graphics.getWidth()/2 and self.item == "bucket"  then
 			self.item = ""
 			tree:giveWater()
+			for i = 1, 10 do
+				local p = Particle( love.window.getWidth()/2, love.window.getHeight() - 32 )
+				local ang = math.random(-180) * math.pi/180
+				p.pos.dx = math.cos(ang)*5 * math.random(100)/200
+				p.pos.dy = math.sin(ang)*5 * math.random(100)/100
+				p.pos.ddy = 0.04
+				p.col.r = 0
+				p.col.g = 70
+				p.col.b = 255
+				p.r = 6
+
+				table.insert( self.entities, p )
+			end
 		elseif self.pos.x < love.graphics.getWidth()/2 and self.item == "sack" then
 			self.item = ""
 			tree:feed()
+			for i = 1, 10 do
+				local p = Particle( love.window.getWidth()/2, love.window.getHeight() - 32 )
+				local ang = math.random(-180) * math.pi/180
+				p.pos.dx = math.cos(ang)*5 * math.random(100)/200
+				p.pos.dy = math.sin(ang)*5 * math.random(100)/100
+				p.pos.ddy = 0.04
+				p.col.r = 0
+				p.col.g = 70
+				p.col.b = 255
+				p.r = 1
+
+				p:setImage( "assets/loveheart.png" )
+
+				table.insert( self.entities, p )
+			end
 		end
 	end,
 }

@@ -24,10 +24,19 @@ Particle = class{
 		self.hp = 100
 		self.r = 16
 		self.decay = 1
+		self.img = nil
+	end,
+	setImage = function( self, imgPath )
+		self.img = love.graphics.newImage( imgPath )
 	end,
 	draw = function( self )
-		love.graphics.setColor(self.col.r*self.hp/100,self.col.g*self.hp/100,self.col.b*self.hp/100, 195)
-		love.graphics.circle("fill",self.pos.x, self.pos.y, self.r*(self.hp/100))
+		if self.img == nil then
+			love.graphics.setColor(self.col.r*self.hp/100,self.col.g*self.hp/100,self.col.b*self.hp/100, 195)
+			love.graphics.circle("fill",self.pos.x, self.pos.y, self.r*(self.hp/100))
+		else
+			love.graphics.setColor(255,255,255)
+			love.graphics.draw( self.img, self.pos.x, self.pos.y, 0, self.hp/100, self.hp/100, self.img:getWidth()/2, self.img:getHeight()/2 )
+		end
 		
 	end,
 	update = function( self, dt )
