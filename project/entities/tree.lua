@@ -3,6 +3,7 @@ Tree = class{
 }
 
 function Tree:init()
+	self.isTree = true
 	self.pos.x = 0
 	self.pos.y = 0
 	self.growth = 0
