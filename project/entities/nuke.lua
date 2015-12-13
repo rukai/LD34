@@ -29,6 +29,14 @@ Nuke = class{
 		self.particles = {}
 		self.partClock = 0
 		self.rot = 0
+
+		--whine SFX
+		self.whineSnd = love.audio.newSource("assets/tone.wav",static)
+		self.whineSnd:setLooping(true)
+		self.whinePitch = 1.0 
+		self.whinePlaying = false
+		self.whineVolume = 0
+
 	end,
 	draw = function( self )
 
@@ -71,7 +79,25 @@ Nuke = class{
 				if v.hp <= 0 then self.particles[i] = nil end
 			end
 		end
+		
+		--whine SFX
+		if self.pos.y > -50 then
+			if self.whinePlaying == false then
+					self.whineSnd:play()
+					self.whinePlaying = true
+			end
 
+			if self.whinePitch > 0.1 then 
+				self.whinePitch = self.whinePitch - 0.002
+			end
+
+			if self.whineVolume < 0.2 then
+				self.whineVolume = self.whineVolume + 0.005
+			end
+
+			self.whineSnd:setVolume(self.whineVolume)
+			self.whineSnd:setPitch(self.whinePitch)
+		end
 	end,
 	bounce = function( self )
 		if self.bounceCooldown == 0 then
@@ -82,6 +108,10 @@ Nuke = class{
 			self.bounceSnd:stop()
 			self.bounceSnd:play()
 		end
+
+		--stop whine SFX
+		self.whineSnd:setLooping(false)
+		self.whineSnd:stop()
 	end,
 	explode = function( self )
 		self.explodeSnd:stop()
@@ -90,7 +120,9 @@ Nuke = class{
 		self.pos.dy = 0
 		self.pos.ddy = 0
 		
-		
+		--stop whine SFX
+		self.whineSnd:setLooping(false)
+		self.whineSnd:stop()
 	end
 
 }
