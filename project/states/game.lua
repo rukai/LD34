@@ -29,46 +29,6 @@ local function dist(x1,y1,x2,y2)
 end
 
 function states.game:update( dt )
-	self.clock = self.clock + dt
-	if self.clock > self.nukeInterval then
-		local x = math.random( love.window.getWidth() )
-		local nuke = Nuke( x, -100, 0 )
-		table.insert( self.entities, nuke )
-		self.clock = 0
-
-		local frac = x/love.window.getWidth()
-		if frac > 0.5 then frac = -(frac-0.5)
-		elseif frac < 0.5 then frac = 0.5-frac end
-
-		nuke.pos.dx = frac*math.random( 2.5, 6.5 )
-	end
-	if tree.growth > tree.maxGrowth then
-		for k,v in pairs(self.entities) do
-			if self.entities[k] == tree then
-				table.remove(self.entities, k)
-			end
-		end
-		self.tree = nil
-
-		tree = Tree()
-		self.tree = tree
-		table.insert( self.entities, tree )
-		self.treeCount = self.treeCount + 1
-	end
-
-	self.partClock = self.partClock + dt
-	if self.partClock > 0.1 then
-		self.partClock = 0
-		for k,v in pairs( self.entities ) do
-			if v.nuke == true then
-				local rot = v.rot - math.pi/2
-				local p = Particle( v.pos.x + math.cos(rot)*30, v.pos.y + math.sin(rot)*30 )
-				p.r = 8
-				p.decay = 4
-				table.insert( self.entities, p )
-			end
-		end
-	end
 
 	for k,v in pairs( self.entities ) do
 		--if self.entities[i] ~= nil then
@@ -115,12 +75,59 @@ function states.game:update( dt )
 				self.tree.health = self.tree.health - 1
 			end
 		end
+
+		if v.hp then
+			if v.hp <= 0 then
+				self.entities[k] = nil
+			end
+		end
 		--end
 
 	end
 
 	self.flash = self.flash - dt * 200
 	if self.flash < 0 then self.flash = 0 end
+
+	self.clock = self.clock + dt
+	if self.clock > self.nukeInterval then
+		local x = math.random( love.window.getWidth() )
+		local nuke = Nuke( x, -100, 0 )
+		table.insert( self.entities, nuke )
+		self.clock = 0
+
+		local frac = x/love.window.getWidth()
+		if frac > 0.5 then frac = -(frac-0.5)
+		elseif frac < 0.5 then frac = 0.5-frac end
+
+		nuke.pos.dx = frac*math.random( 2.5, 6.5 )
+	end
+	if tree.growth > tree.maxGrowth then
+		for k,v in pairs(self.entities) do
+			if v.isTree == true then
+				self.entities[k] = nil
+			end
+		end
+		self.tree = nil
+
+		tree = Tree()
+		self.tree = tree
+		table.insert( self.entities, tree )
+		self.treeCount = self.treeCount + 1
+	end
+
+	self.partClock = self.partClock + dt
+	if self.partClock > 0.1 then
+		self.partClock = 0
+		for k,v in pairs( self.entities ) do
+			if v.nuke == true then
+				local rot = v.rot - math.pi/2
+				local p = Particle( v.pos.x + math.cos(rot)*30, v.pos.y + math.sin(rot)*30 )
+				p.r = 8
+				p.decay = 4
+				table.insert( self.entities, p )
+			end
+		end
+	end
 end
 
 function states.game:draw()
