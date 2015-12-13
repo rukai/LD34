@@ -39,7 +39,6 @@ function Tree:draw ()
 		if alpha < 0 then
 			alpha = 0
 		end
-		print(alpha)
 		love.graphics.setColor(0, 0, 0, alpha)
 	end
 	love.graphics.draw(self.canvas, self.pos.x, self.pos.y)

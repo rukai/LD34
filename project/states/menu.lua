@@ -1,42 +1,42 @@
 states.menu = {}
 function states.menu:enter()
-	menubg = love.graphics.newImage("assets/menubg.png")
-	rightArrowUp = love.graphics.newImage("assets/arrow.png")
-	rightArrowPressed = love.graphics.newImage("assets/arrowpressed.png")
+	self.menubg = love.graphics.newImage("assets/menubg.png")
+	self.rightArrowUp = love.graphics.newImage("assets/arrow.png")
+	self.rightArrowPressed = love.graphics.newImage("assets/arrowpressed.png")
 
-	leftArrowUp = love.graphics.newImage("assets/leftarrow.png")
-	leftArrowPressed = love.graphics.newImage("assets/leftarrowpressed.png")
+	self.leftArrowUp = love.graphics.newImage("assets/leftarrow.png")
+	self.leftArrowPressed = love.graphics.newImage("assets/leftarrowpressed.png")
 
-	arrow1state = 0
-	arrow2state = 0
-	arrow1X = 637
-	arrow2X = 689
-	arrowY = 347
+	self.arrow1state = 0
+	self.arrow2state = 0
+	self.arrow1X = 637
+	self.arrow2X = 689
+	self.arrowY = 347
 
 	--setup tree for i in title
-	tree = Tree()
-	tree:init()
-	tree.pos.x = 354
-	tree.pos.y = -430
-	tree.growth = 9
-	tree.ratioConstant = 0.7
-	tree.ratioMultiplier = 90
-	tree.angleOffset = 0.7
-	tree.angleSplit = 0
-	tree.growthRate = 0
+	self.tree = Tree()
+	self.tree:init()
+	self.tree.pos.x = 354
+	self.tree.pos.y = -430
+	self.tree.growth = 9
+	self.tree.ratioConstant = 0.7
+	self.tree.ratioMultiplier = 90
+	self.tree.angleOffset = 0.7
+	self.tree.angleSplit = 0
+	self.tree.growthRate = 0
 end
 
 function states.menu:update()
 	if love.keyboard.isDown("left") then
-		arrow1state = 1
+		self.arrow1state = 1
 	else 
-		arrow1state = 0
+		self.arrow1state = 0
 	end
 
 	if love.keyboard.isDown("right") then
-		arrow2state = 1
+		self.arrow2state = 1
 	else
-		arrow2state = 0 
+		self.arrow2state = 0 
 	end
 
 	if love.keyboard.isDown("left") and love.keyboard.isDown("right") then
@@ -47,19 +47,19 @@ end
 function states.menu:draw()
 	love.graphics.setBackgroundColor(255,255,255)
 	love.graphics.setColor(255, 255, 255) 
-	love.graphics.draw(menubg,0,0)
+	love.graphics.draw(self.menubg,0,0)
 
-	if arrow1state == 0 then
-		love.graphics.draw(leftArrowUp,arrow1X,arrowY)
+	if self.arrow1state == 0 then
+		love.graphics.draw(self.leftArrowUp,self.arrow1X,self.arrowY)
 	else
-		love.graphics.draw(leftArrowPressed,arrow1X,arrowY)
+		love.graphics.draw(self.leftArrowPressed,self.arrow1X,self.arrowY)
 	end
 
-	if arrow2state == 0 then
-		love.graphics.draw(rightArrowUp,arrow2X,arrowY)
+	if self.arrow2state == 0 then
+		love.graphics.draw(self.rightArrowUp,self.arrow2X,self.arrowY)
 	else
-		love.graphics.draw(rightArrowPressed,arrow2X,arrowY)
+		love.graphics.draw(self.rightArrowPressed,self.arrow2X,self.arrowY)
 	end
 
-	tree:draw()
+	self.tree:draw()
 end
