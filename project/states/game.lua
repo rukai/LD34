@@ -4,12 +4,9 @@ states.game.clock = 0
 states.game.nukeInterval = 4
 states.game.player = nil
 states.game.partClock = 0
-
-
+states.game.tutorial = true
 
 function states.game:enter()
-
-	
 	self.flash = 0
 	self.fade = 255
 	for k,v in pairs(self.entities) do
@@ -27,7 +24,15 @@ function states.game:enter()
     wellImg = love.graphics.newImage("assets/well.png")
 	fertilizerImg = love.graphics.newImage("assets/fertilizer.png")
 	potImg = love.graphics.newImage("assets/pot.png")
+	tutorialArrowImg = love.graphics.newImage("assets/tutorialArrow.png")
+
 	self.treeCount = 0
+	self.tutorialTime = love.timer.getTime()
+	self.tutorialWarningState = 0
+
+	if love.filesystem.exists('highscores.sav') then
+		self.tutorial = false
+	end
 end
 
 local function dist(x1,y1,x2,y2)
@@ -171,6 +176,41 @@ function states.game:draw()
 
 	love.graphics.setFont(bigFont)
 	love.graphics.printf(self.treeCount .. " TREES", 0, 110, love.graphics.getWidth(), 'center')
+
+	if self.tutorial then
+		love.graphics.setFont(medFont)
+		love.graphics.setColor(0, 0, 0)
+		if love.timer.getTime() - self.tutorialTime < 10 then
+			
+			--water
+			love.graphics.print("Hydrate your tree", 5, 440)
+			love.graphics.draw(tutorialArrowImg, 45, 550, 3 * math.pi/2)
+			
+			--love
+			love.graphics.print("Love your tree", love.graphics.getWidth() - 180, 500)
+			love.graphics.draw(tutorialArrowImg, love.graphics.getWidth() - 100, 600, 3 * math.pi/2)
+
+			--nukes
+			for k, entity in pairs(self.entities) do
+				if entity.nuke then
+					local x = entity.pos.x + 20
+					local y = entity.pos.y
+					love.graphics.print("STOP THIS", x, y)
+				end
+			end
+		end
+
+		--warning
+		local danger = tree.water == 0 or tree.food == 0
+		if self.tutorialWarningState == 0 and danger then
+			self.tutorialWarningState = 1 --begin warning
+		elseif self.tutorialWarningState == 1 and not danger then
+			self.tutorialWarningState = 2 --end warning
+		end
+		if self.tutorialWarningState == 1 then
+			love.graphics.print("YOUR TREE NEEDS\nWATER & LOVE OR\nIT WILL STOP GROWING\nAND LOSE HEALTH", 860, 300)
+		end
+	end
 
 	love.graphics.setColor(255,255,255,self.flash)
 	love.graphics.rectangle("fill", 0,0, love.window.getWidth(), love.window.getHeight())
