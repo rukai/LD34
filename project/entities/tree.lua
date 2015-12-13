@@ -5,7 +5,7 @@ Tree = class{
 function Tree:init()
 	self.isTree = true
 	self.pos.x = 0
-	self.pos.y = 0
+	self.pos.y = -40
 	self.growth = 0
 	self.health = 10
 	self.water = 10
@@ -19,7 +19,7 @@ function Tree:init()
 
 	self.canvas = love.graphics.newCanvas(love.window.getWidth(), love.window.getHeight())
 	self.startTime = love.timer.getTime()
-	self.growthRate = 1 -- number of seconds before tree grows
+	self.growthRate = 7 -- number of seconds before tree grows
 	self.maxGrowth = 10
 end
 
@@ -63,7 +63,6 @@ function Tree:drawBranch(x, y, angle, iteration) -- x and y refer to the ends of
 end
 
 function Tree:update(dt)
-
 	--grow
 	local newTime = love.timer.getTime()
 	if newTime - self.startTime > self.growthRate and self.growth <= self.maxGrowth then
@@ -71,9 +70,9 @@ function Tree:update(dt)
 		self.growth = self.growth + 1
 	end
 	
+	--consume resources
 	self.water = self.water - 0.003
 	self.food = self.food - 0.003
-
 	if self.water <= 0 then
 		self.water = 0
 		self.startTime = newTime
@@ -84,9 +83,13 @@ function Tree:update(dt)
 		self.startTime = newTime
 		self.health = self.health - 0.003
 	end
-
 	if self.health < 0 then
 		self.health = 0
+	end
+
+	--lose
+	if self.health <= 0 then
+		gamestate.switch(states.score)
 	end
 end
 
