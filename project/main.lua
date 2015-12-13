@@ -36,6 +36,7 @@ function love.update( dt )
 end
 
 function love.draw()
+	love.graphics.setBackgroundColor(255, 255, 255)
 	local cur_time = love.timer.getTime()
 	if next_time <= cur_time then
 		next_time = cur_time

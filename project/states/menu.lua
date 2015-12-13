@@ -23,6 +23,7 @@ function states.menu:enter()
 	tree.ratioMultiplier = 90
 	tree.angleOffset = 0.7
 	tree.angleSplit = 0
+	tree.growthRate = 0
 end
 
 function states.menu:update()
