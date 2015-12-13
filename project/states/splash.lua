@@ -51,7 +51,7 @@ function states.splash:update()
 				logoAlpha = logoAlpha - 5
 				if logoAlpha <= 0 then
 					splashscreen = false
-					gamestate.switch(states.game)
+					gamestate.switch(states.menu)
 				end
 			end
 		end

@@ -22,7 +22,7 @@ function love.load()
 	min_dt = 1/60
 	next_time = love.timer.getTime()
 	gamestate.registerEvents()
-	gamestate.switch( states.game )
+	gamestate.switch( states.splash )
 
 	tinyFont = love.graphics.newFont("assets/roboto.ttf", 12)
 	font = love.graphics.newFont("assets/roboto.ttf", 20)

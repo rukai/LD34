@@ -9,9 +9,13 @@ function Tree:init()
 	self.health = 10
 	self.water = 10
 	self.food = 10
+	
+	--drawing constants
 	self.ratioConstant = rand(0.4, 0.7)
+	self.ratioMultiplier = 170
 	self.angleOffset = rand(0.4, 0.9)
 	self.angleSplit = rand(-self.angleOffset, self.angleOffset)
+
 	self.canvas = love.graphics.newCanvas(love.window.getWidth(), love.window.getHeight())
 	self.startTime = love.timer.getTime()
 	self.growthRate = 1 -- number of seconds before tree grows
@@ -33,11 +37,11 @@ function Tree:draw ()
 		local alpha = 255 - math.min(255 * (love.timer.getTime() - self.startTime)/self.growthRate, 255)
 		love.graphics.setColor(0, 0, 0, alpha)
 	end
-	love.graphics.draw(self.canvas, 0, 0)
+	love.graphics.draw(self.canvas, self.pos.x, self.pos.y)
 end
 
 function Tree:drawBranch(x, y, angle, iteration) -- x and y refer to the ends of the previously drawn branch
-	local ratio = self.ratioConstant ^ iteration * 170 
+	local ratio = self.ratioConstant ^ iteration * self.ratioMultiplier
 
 	local newX = x + (math.cos(angle) * ratio)
 	local newY = y - (math.sin(angle) * ratio)
