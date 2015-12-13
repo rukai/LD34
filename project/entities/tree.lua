@@ -14,8 +14,8 @@ function Tree:init()
 	self.angleSplit = rand(-self.angleOffset, self.angleOffset)
 	self.canvas = love.graphics.newCanvas(love.window.getWidth(), love.window.getHeight())
 	self.startTime = love.timer.getTime()
-	self.growthRate = 0.5 -- number of seconds before tree grows
-	self.maxGrowth = 9
+	self.growthRate = 1 -- number of seconds before tree grows
+	self.maxGrowth = 10
 end
 
 function Tree:draw ()
@@ -23,9 +23,16 @@ function Tree:draw ()
 	love.graphics.setColor(0, 0, 0)
 	local width = self.canvas:getWidth()
 	local height = self.canvas:getHeight()
-	self.drawBranch(self, width/2, height, math.pi/2, 0)
+	if self.growth > 0 then
+		self.drawBranch(self, width/2, height, math.pi/2, 0)
+	end
 	love.graphics.setCanvas()
-
+	
+	--fade out when finished growing
+	if self.growth == self.maxGrowth then
+		local alpha = 255 - math.min(255 * (love.timer.getTime() - self.startTime)/self.growthRate, 255)
+		love.graphics.setColor(0, 0, 0, alpha)
+	end
 	love.graphics.draw(self.canvas, 0, 0)
 end
 
@@ -34,13 +41,13 @@ function Tree:drawBranch(x, y, angle, iteration) -- x and y refer to the ends of
 
 	local newX = x + (math.cos(angle) * ratio)
 	local newY = y - (math.sin(angle) * ratio)
-	if iteration == self.growth then 
+	if iteration == self.growth-1 then 
 		local alpha = 255 * (love.timer.getTime() - self.startTime)/self.growthRate
 		love.graphics.setColor(0, 0, 0, alpha)
 	end
 	love.graphics.line(x, y, newX, newY)
 	love.graphics.setColor(0, 0, 0)
-	if iteration < self.growth then
+	if iteration < self.growth-1 then
 		self.drawBranch(self, newX, newY, angle + self.angleOffset + self.angleSplit, iteration + 1)
 		self.drawBranch(self, newX, newY, angle - self.angleOffset + self.angleSplit, iteration + 1)
 	end
