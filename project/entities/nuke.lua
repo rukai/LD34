@@ -3,6 +3,13 @@ Nuke = class{
 	nuke = true,
 	bounceCooldown = 0,
 	init = function( self, x, y, dx )
+
+		self.bounceSnd = love.audio.newSource("assets/nukeBounce.wav",static)
+		self.bounceSnd:setVolume(0.1)
+
+		self.explodeSnd = love.audio.newSource("assets/explode.wav",static)
+		self.explodeSnd:setVolume(0.2)
+
 		self.pos = {
 			x = 0, 
 			y = 0,
@@ -33,8 +40,8 @@ Nuke = class{
 		love.graphics.setColor(255,255,255)
 		love.graphics.draw( self.img, self.pos.x, self.pos.y,  self.rot, 0.7, 0.7, 52/2, 101/2 )
 
-		love.graphics.setColor(255,0,0)
-		love.graphics.circle( "line", self.pos.x + self.chull.xo, self.pos.y + self.chull.yo, self.chull.r )
+		--love.graphics.setColor(255,0,0)
+		--love.graphics.circle( "line", self.pos.x + self.chull.xo, self.pos.y + self.chull.yo, self.chull.r )
 	end,
 	update = function( self, dt )
 
@@ -71,9 +78,14 @@ Nuke = class{
 			self.pos.dy = -self.pos.dy
 			self.pos.ddy = -0.04
 			self.bounceCooldown = 1
+
+			self.bounceSnd:stop()
+			self.bounceSnd:play()
 		end
 	end,
 	explode = function( self )
+		self.explodeSnd:stop()
+		self.explodeSnd:play()
 		self.pos.dx = 0
 		self.pos.dy = 0
 		self.pos.ddy = 0

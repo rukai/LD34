@@ -54,8 +54,8 @@ Player = class{
 
 		love.graphics.draw( self.umbrellaimg, self.pos.x+102/2 - 25, self.pos.y -35, 0, -1, 1, 102/2)
 
-		love.graphics.setColor(255,0,0)
-		love.graphics.circle( "line", self.pos.x + self.chull.xo, self.pos.y + self.chull.yo, self.chull.r)
+		--love.graphics.setColor(255,0,0)
+		--love.graphics.circle( "line", self.pos.x + self.chull.xo, self.pos.y + self.chull.yo, self.chull.r)
 	end,
 
 	update = function( self, dt )

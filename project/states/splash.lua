@@ -1,5 +1,10 @@
 states.splash = {}
 function states.splash:enter()
+
+	self.bgm = love.audio.newSource("assets/bgm.mp3",stream)
+	self.bgm:setLooping(true)
+	self.bgm:play()
+	
 	splashscreen = true
 	splashscreenTimer = 150
 	splashscreenSoundPlayed = false

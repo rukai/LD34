@@ -1,12 +1,17 @@
 states.game = {}
 states.game.entities = {}
 states.game.clock = 0
-states.game.nukeInterval = 1
+states.game.nukeInterval = 4
 states.game.player = nil
 states.game.partClock = 0
-states.game.flash = 0
+
+
 
 function states.game:enter()
+
+	
+	self.flash = 0
+	self.fade = 255
 	for k,v in pairs(self.entities) do
 		self.entities[k] = nil
 	end
@@ -42,6 +47,7 @@ function states.game:update( dt )
 			if dist(v.pos.x, v.pos.y, self.player.pos.x + self.player.chull.xo, self.player.pos.y + self.player.chull.yo) < v.chull.r + self.player.chull.r then
 				--self.entities[i] = nil
 				v:bounce()
+				
 			end
 			if v.pos.x > love.window.getWidth() + 100*0.7*0.5 then
 				self.entities[k] = nil
@@ -53,10 +59,11 @@ function states.game:update( dt )
 				v:explode()
 				self.flash = self.flash + 192
 				if self.flash > 255 then self.flash = 255 end
-				for i = 1,40 do
+				for i = 1,100 do
 					local p = Particle( v.pos.x, v.pos.y )
-					p.pos.dx = math.random(-100,100) / 50
-					p.pos.dy = math.random(-100,0) / 20
+					local ang = math.random(-180) * math.pi/180
+					p.pos.dx = math.cos(ang)*5 * math.random(100)/200
+					p.pos.dy = math.sin(ang)*5 * math.random(100)/100
 					p.pos.ddy = 0.02
 					p.r = 22
 
@@ -87,6 +94,9 @@ function states.game:update( dt )
 
 	self.flash = self.flash - dt * 200
 	if self.flash < 0 then self.flash = 0 end
+
+	self.fade = self.fade - dt * 100
+	if self.fade < 0 then self.fade = 0 end
 
 	self.clock = self.clock + dt
 	if self.clock > self.nukeInterval then
@@ -155,14 +165,17 @@ function states.game:draw()
 		v:draw()
 	end
 
-	drawBar(love.graphics.getWidth()/2, 60, "HEALTH", tree.health, 10, {244, 0, 0})
-	drawBar(love.graphics.getWidth()/2-300, 80, "WATER", tree.water, 10, {0, 97, 255})
-	drawBar(love.graphics.getWidth()/2+300, 80, "LOVE", tree.food, 10, {255, 102, 153})
+	drawBar(love.graphics.getWidth()/2, 60, "HEALTH", tree.health, 10, {244, 0, 0, 100})
+	drawBar(love.graphics.getWidth()/2-300, 80, "WATER", tree.water, 10, {0, 97, 255, 100})
+	drawBar(love.graphics.getWidth()/2+300, 80, "LOVE", tree.food, 10, {255, 102, 153, 100})
 
 	love.graphics.setFont(bigFont)
 	love.graphics.printf(self.treeCount .. " TREES", 0, 110, love.graphics.getWidth(), 'center')
 
 	love.graphics.setColor(255,255,255,self.flash)
+	love.graphics.rectangle("fill", 0,0, love.window.getWidth(), love.window.getHeight())
+
+	love.graphics.setColor(255,255,255,self.fade)
 	love.graphics.rectangle("fill", 0,0, love.window.getWidth(), love.window.getHeight())
 end
 
