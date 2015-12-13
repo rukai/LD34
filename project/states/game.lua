@@ -41,8 +41,6 @@ function states.game:update( dt )
 			--local v = self.entities[i]
 		v:update(dt)
 
-
-
 		-- check collisions using chull
 		if v.nuke == true then
 			if dist(v.pos.x, v.pos.y, self.player.pos.x + self.player.chull.xo, self.player.pos.y + self.player.chull.yo) < v.chull.r + self.player.chull.r then
@@ -50,8 +48,6 @@ function states.game:update( dt )
 				v:bounce()
 				v.pos.dx = v.pos.dx + self.player.pos.dx/5
 			end
-
-
 
 			if v.pos.x > love.window.getWidth() + 100*0.7*0.5 then
 				self.entities[k] = nil
@@ -83,7 +79,7 @@ function states.game:update( dt )
 					
 				end
 				self.entities[k] = nil
-				self.tree.health = self.tree.health - 1
+				self.tree.health = self.tree.health - 2
 			end
 		end
 

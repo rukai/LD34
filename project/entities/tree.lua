@@ -77,8 +77,8 @@ function Tree:update(dt)
 	end
 	
 	--consume resources
-	self.water = self.water - 0.003
-	self.food = self.food - 0.003
+	self.water = self.water - 0.004
+	self.food = self.food - 0.004
 	if self.water <= 0 then
 		self.water = 0
 		self.startTime = newTime
