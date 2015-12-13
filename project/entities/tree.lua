@@ -12,10 +12,10 @@ function Tree:init()
 	self.food = 10
 	
 	self.waterSnd = love.audio.newSource("assets/water.wav", static)
-	self.waterSnd:setVolume(0.2)
+	self.waterSnd:setVolume(0.5)
 
 	self.loveSnd = love.audio.newSource("assets/love.wav",static)
-	self.loveSnd:setVolume(0.2)
+	self.loveSnd:setVolume(0.7)
 
 	--drawing constants
 	self.ratioConstant = rand(0.4, 0.7)

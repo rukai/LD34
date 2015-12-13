@@ -35,9 +35,6 @@ function states.score:enter()
 		self.highscore = tonumber(data)
 	end
 
-	print(self.highscore)
-	print(self.score)
-
 	--update highscore
 	if self.score >= self.highscore then
 		self.highscore = self.score
