@@ -17,6 +17,7 @@ function states.game:enter()
 	end
 
 	self.player = Player( love.graphics.getWidth()/2 - 98, love.graphics.getHeight() - 142 )
+	self.player.entities = self.entities
 
 	table.insert( self.entities, self.player )
 	tree = Tree()
@@ -47,8 +48,11 @@ function states.game:update( dt )
 			if dist(v.pos.x, v.pos.y, self.player.pos.x + self.player.chull.xo, self.player.pos.y + self.player.chull.yo) < v.chull.r + self.player.chull.r then
 				--self.entities[i] = nil
 				v:bounce()
-				
+				v.pos.dx = v.pos.dx + self.player.pos.dx/5
 			end
+
+
+
 			if v.pos.x > love.window.getWidth() + 100*0.7*0.5 then
 				self.entities[k] = nil
 			end

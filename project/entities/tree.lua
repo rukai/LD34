@@ -11,6 +11,12 @@ function Tree:init()
 	self.water = 10
 	self.food = 10
 	
+	self.waterSnd = love.audio.newSource("assets/water.wav", static)
+	self.waterSnd:setVolume(0.2)
+
+	self.loveSnd = love.audio.newSource("assets/love.wav",static)
+	self.loveSnd:setVolume(0.2)
+
 	--drawing constants
 	self.ratioConstant = rand(0.4, 0.7)
 	self.ratioMultiplier = 170
@@ -98,6 +104,9 @@ function Tree:giveWater()
 	if self.water > 10 then
 		self.water = 10
 	end
+	self.waterSnd:stop()
+	self.waterSnd:play()
+
 end
 
 function Tree:feed()
@@ -105,6 +114,8 @@ function Tree:feed()
 	if self.food > 10 then
 		self.food = 10
 	end
+	self.loveSnd:stop()
+	self.loveSnd:play()
 end
 
 --floating point value between 0-1 representing the progress from one growth state to the next
