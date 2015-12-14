@@ -14,16 +14,15 @@ function states.menu:enter()
 	self.arrowY = 347
 
 	--setup tree for i in title
-	self.tree = Tree()
-	self.tree:init()
-	self.tree.pos.x = 354
-	self.tree.pos.y = -430
-	self.tree.growth = 9
-	self.tree.ratioConstant = 0.7
-	self.tree.ratioMultiplier = 90
-	self.tree.angleOffset = 0.7
-	self.tree.angleSplit = 0
-	self.tree.growthRate = 0
+	local tree = Tree()
+	tree:init()
+	tree.growth = 12
+	tree.ratioConstant = 0.7
+	tree.ratioMultiplier = 90
+	tree.angleOffset = 0.7
+	tree.angleSplit = 0
+	tree.growthRate = 0
+	self.treeCanvas = tree:getStaticCanvas()
 end
 
 function states.menu:update()
@@ -61,5 +60,5 @@ function states.menu:draw()
 		love.graphics.draw(self.rightArrowPressed,self.arrow2X,self.arrowY)
 	end
 
-	self.tree:draw()
+	love.graphics.draw(self.treeCanvas, 354, -430)
 end

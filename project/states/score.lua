@@ -13,16 +13,15 @@ function states.score:enter()
 	self.fadeAlpha = 255
 
 	--setup tree for i in title
-	self.tree = Tree()
-	self.tree:init()
-	self.tree.pos.x = 0
-	self.tree.pos.y = -138
-	self.tree.growth = 9
-	self.tree.ratioConstant = 0.7
-	self.tree.ratioMultiplier = 130
-	self.tree.angleOffset = 0.7
-	self.tree.angleSplit = 0
-	self.tree.growthRate = 0
+	local tree = Tree()
+	tree:init()
+	tree.growth = 12
+	tree.ratioConstant = 0.7
+	tree.ratioMultiplier = 130
+	tree.angleOffset = 0.7
+	tree.angleSplit = 0
+	tree.growthRate = 0
+	self.treeCanvas = tree:getStaticCanvas()
 
 	--load highscore
 	local saveFile = love.filesystem.newFile("highscores.sav")
@@ -92,7 +91,7 @@ function states.score:draw()
 		highscoreString = "BEST: " .. self.highscore
 	end
 	love.graphics.setFont(medFont)
-	love.graphics.printf(highscoreString, 0, 175, love.graphics.getWidth(), 'center')
+	love.graphics.printf(highscoreString, 0, 165, love.graphics.getWidth(), 'center')
 
 	--play again
 	love.graphics.setFont(medFont)
@@ -115,7 +114,7 @@ function states.score:draw()
 		love.graphics.draw(self.rightArrowPressed, arrow2X, arrowY)
 	end
 
-	self.tree:draw()
+	love.graphics.draw(self.treeCanvas, 0, -138)
 
 	--fade in
 	love.graphics.setColor(255, 255, 255, self.fadeAlpha)

@@ -40,7 +40,7 @@ local function dist(x1,y1,x2,y2)
 end
 
 function states.game:update( dt )
-	self.nukeInterval = math.max(self.nukeInterval - 0.0002, 2) -- the interval gets one second smaller every minute
+	self.nukeInterval = math.max(self.nukeInterval - 0.0001, 2.5) -- the interval gets one second smaller every 2 minute
 
 	for k,v in pairs( self.entities ) do
 		--if self.entities[i] ~= nil then

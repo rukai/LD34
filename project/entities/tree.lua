@@ -25,7 +25,7 @@ function Tree:init()
 
 	self.canvas = love.graphics.newCanvas(love.window.getWidth(), love.window.getHeight())
 	self.startTime = love.timer.getTime()
-	self.growthRate = 6 -- number of seconds before tree grows
+	self.growthRate = 3 -- number of seconds before tree grows
 	self.maxGrowth = 10
 end
 
@@ -35,7 +35,7 @@ function Tree:draw ()
 	local width = self.canvas:getWidth()
 	local height = self.canvas:getHeight()
 	if self.growth > 0 then
-		self.drawBranch(self, width/2, height, math.pi/2, 0)
+		self:drawBranch(width/2, height, math.pi/2, 0)
 	end
 	love.graphics.setCanvas()
 	
@@ -48,6 +48,19 @@ function Tree:draw ()
 		love.graphics.setColor(0, 0, 0, alpha)
 	end
 	love.graphics.draw(self.canvas, self.pos.x, self.pos.y)
+end
+
+function Tree:getStaticCanvas()
+	local canvas = love.graphics.newCanvas(love.graphics.getWidth(), love.graphics.getHeight())
+	love.graphics.setCanvas(canvas)
+	love.graphics.setColor(0, 0, 0)
+	local width = self.canvas:getWidth()
+	local height = self.canvas:getHeight()
+	if self.growth > 0 then
+		self:drawBranch(width/2, height, math.pi/2, 0)
+	end
+	love.graphics.setCanvas()
+	return canvas
 end
 
 function Tree:drawBranch(x, y, angle, iteration) -- x and y refer to the ends of the previously drawn branch
@@ -77,8 +90,8 @@ function Tree:update(dt)
 	end
 	
 	--consume resources
-	self.water = self.water - 0.004
-	self.food = self.food - 0.004
+	self.water = self.water - 0.006
+	self.food = self.food - 0.006
 	if self.water <= 0 then
 		self.water = 0
 		self.startTime = newTime
@@ -100,7 +113,7 @@ function Tree:update(dt)
 end
 
 function Tree:giveWater()
-	self.water = self.water + 2
+	self.water = self.water + 4
 	if self.water > 10 then
 		self.water = 10
 	end
@@ -110,7 +123,7 @@ function Tree:giveWater()
 end
 
 function Tree:feed()
-	self.food = self.food + 2
+	self.food = self.food + 4
 	if self.food > 10 then
 		self.food = 10
 	end
