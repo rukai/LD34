@@ -108,6 +108,13 @@ function Tree:update(dt)
 
 	--lose
 	if self.health <= 0 then
+		for k,entity in pairs(states.game.entities) do
+			if entity.nuke then
+				entity.whineSnd:setLooping(false)
+				entity.whineSnd:stop()
+			end
+		end
+
 		gamestate.switch(states.score)
 	end
 end

@@ -29,9 +29,19 @@ function states.game:enter()
 	self.tutorialTime = love.timer.getTime()
 	self.tutorialWarningState = 0
 	self.nukeInterval = 4
-
+	
 	if love.filesystem.exists('highscores.sav') then
 		self.tutorial = false
+	end
+	
+	--get highscore
+	local saveFile = love.filesystem.newFile("highscores.sav")
+	self.highscore = 0
+	saveFile:open("r") -- open file for reading.
+	local data = saveFile:read()
+	saveFile:close()
+	if data then
+		self.highscore = tonumber(data)
 	end
 end
 
@@ -174,6 +184,8 @@ function states.game:draw()
 	drawBar(love.graphics.getWidth()/2, 60, "HEALTH", tree.health, 10, {244, 0, 0, 100})
 	drawBar(love.graphics.getWidth()/2-300, 80, "WATER", tree.water, 10, {0, 97, 255, 100})
 	drawBar(love.graphics.getWidth()/2+300, 80, "LOVE", tree.food, 10, {255, 102, 153, 100})
+
+	love.graphics.printf("PREVIOUS BEST: "..self.highscore, 0, 80, love.graphics.getWidth(), 'center')
 
 	love.graphics.setFont(bigFont)
 	love.graphics.printf(self.treeCount .. " TREES", 0, 110, love.graphics.getWidth(), 'center')
