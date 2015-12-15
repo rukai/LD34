@@ -2,9 +2,8 @@
 
 
 #zip files into .love
-zip -r ../${PWD##*/}.love *
+zip -r ../herballistic.love *
 
 #run .love
-loveFile="${PWD}.love"
 cd ..
-love $loveFile
+love herballistic.love
