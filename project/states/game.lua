@@ -65,13 +65,13 @@ function states.game:update( dt )
 				v.pos.dx = v.pos.dx + self.player.pos.dx/5
 			end
 
-			if v.pos.x > love.window.getWidth() + 100*0.7*0.5 then
+			if v.pos.x > love.graphics.getWidth() + 100*0.7*0.5 then
 				self.entities[k] = nil
 			end
 			if v.pos.x < -100*0.7*0.5 then
 				self.entities[k] = nil
 			end
-			if v.pos.y > love.window.getHeight() - 101*0.7*0.5 then
+			if v.pos.y > love.graphics.getHeight() - 101*0.7*0.5 then
 				v:explode()
 				self.flash = self.flash + 192
 				if self.flash > 255 then self.flash = 255 end
@@ -116,12 +116,12 @@ function states.game:update( dt )
 
 	self.clock = self.clock + dt
 	if self.clock > self.nukeInterval then
-		local x = math.random( love.window.getWidth() )
+		local x = math.random( love.graphics.getWidth() )
 		local nuke = Nuke( x, -100, 0 )
 		table.insert( self.entities, nuke )
 		self.clock = 0
 
-		local frac = x/love.window.getWidth()
+		local frac = x/love.graphics.getWidth()
 		if frac > 0.5 then frac = -(frac-0.5)
 		elseif frac < 0.5 then frac = 0.5-frac end
 
@@ -160,7 +160,7 @@ function states.game:draw()
 	love.graphics.setBackgroundColor(255, 255, 255)
 
 	love.graphics.setColor(200,0,0,self.flash/2)
-	love.graphics.rectangle("fill",0,0,love.window.getWidth(), love.window.getHeight())
+	love.graphics.rectangle("fill",0,0,love.graphics.getWidth(), love.graphics.getHeight())
 
 	love.graphics.setColor(0, 0, 0)
 	love.graphics.rectangle( "fill", 0, love.graphics.getHeight()-10, love.graphics.getWidth(), love.graphics.getHeight())
@@ -232,10 +232,10 @@ function states.game:draw()
 	end
 
 	love.graphics.setColor(255,255,255,self.flash)
-	love.graphics.rectangle("fill", 0,0, love.window.getWidth(), love.window.getHeight())
+	love.graphics.rectangle("fill", 0,0, love.graphics.getWidth(), love.graphics.getHeight())
 
 	love.graphics.setColor(255,255,255,self.fade)
-	love.graphics.rectangle("fill", 0,0, love.window.getWidth(), love.window.getHeight())
+	love.graphics.rectangle("fill", 0,0, love.graphics.getWidth(), love.graphics.getHeight())
 end
 
 function drawBar(x, y, name, value, maxValue, color)

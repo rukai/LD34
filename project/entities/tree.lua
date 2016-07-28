@@ -23,7 +23,7 @@ function Tree:init()
 	self.angleOffset = rand(0.4, 0.9)
 	self.angleSplit = rand(-self.angleOffset, self.angleOffset)
 
-	self.canvas = love.graphics.newCanvas(love.window.getWidth(), love.window.getHeight())
+	self.canvas = love.graphics.newCanvas(love.graphics.getWidth(), love.graphics.getHeight())
 	self.startTime = love.timer.getTime()
 	self.growthRate = 3 -- number of seconds before tree grows
 	self.maxGrowth = 10

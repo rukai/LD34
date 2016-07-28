@@ -108,7 +108,7 @@ Player = class{
 			self.item = ""
 			tree:giveWater()
 			for i = 1, 10 do
-				local p = Particle( love.window.getWidth()/2, love.window.getHeight() - 32 )
+				local p = Particle( love.graphics.getWidth()/2, love.graphics.getHeight() - 32 )
 				local ang = math.random(-180) * math.pi/180
 				p.pos.dx = math.cos(ang)*5 * math.random(100)/200
 				p.pos.dy = math.sin(ang)*5 * math.random(100)/100
@@ -124,7 +124,7 @@ Player = class{
 			self.item = ""
 			tree:feed()
 			for i = 1, 10 do
-				local p = Particle( love.window.getWidth()/2, love.window.getHeight() - 32 )
+				local p = Particle( love.graphics.getWidth()/2, love.graphics.getHeight() - 32 )
 				local ang = math.random(-180) * math.pi/180
 				p.pos.dx = math.cos(ang)*5 * math.random(100)/200
 				p.pos.dy = math.sin(ang)*5 * math.random(100)/100
